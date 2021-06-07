@@ -32,14 +32,15 @@ The final model we built was a simple and deep Long-Short Term Memory on both th
 # Loss Function
 Mean Squared Error
 
-![image](https://user-images.githubusercontent.com/32625230/121101189-ff8cd500-c7c0-11eb-8a48-cf2f8284e51d.png)
+
 
 # Experiments/Results/Discussion
 # Experiments
 First and foremost, we want to make it clear that out project is focused more on the comparison acrossdifferent DL models instead of extensive hyper-parameter tuning, to get a broad idea of whetheror not DL is a viable or promising approach for improving salmon forecasting. One of the thingswe experimented with was our optimizer. We had initially started with SGD, but when we saw thatthis made our models struggle to converge their loss function, we switched to the Adam optimizer.Adam worked much better and we decided to use it in all of our models for consistency. Anotherhyperparamter we experimented with was mini batch size. For our all GRU models except our multivariable models, we used a mini batch size of 150. We used a larger mini batch size for the multivariable models of 1,000 in order to speed up the computation and allow for smoother convergence ofthe loss. We followed the same scheme for our LSTM models, excpet that our multi variable shallowLSTM provided better results when ran on a mini batch size of 2000. For our classic RNN models,we used a small mini batch size of 64 to speed up convergence, at the cost of increased oscillation ofthe loss. For the multi variable RNN models, we used a mini batch size of 100 as we found it to dealbetter with the addition of 5 more covariates. Finally, we used a mini batch size of 100 for our fully connected Neural Networks, however we did not experiment much with these as they predominantlyserve as a baseline.
 
 # Results
-![image](https://user-images.githubusercontent.com/32625230/121101322-3cf16280-c7c1-11eb-878e-43e5168fc2bb.png)
+<img width="644" alt="results" src="https://user-images.githubusercontent.com/32625230/121101702-f819fb80-c7c1-11eb-9800-51532a4cd09b.png">
+
 
 # Evaluation Metric
 Since this is a regression model, we used root mean squared error (RMSE) as our evaluation metricfor all models. At one point in the project, we were comparing our models’ results to the traditionalyearly salmon forecasts (using official forecasting data), however we quickly realized that we werenot making a fair comparison since we are using the last 180 days to make a prediction on thefollowing day, whereas the traditional forecast uses the last couple years to predict the followingyear. After this realization, we created basic linear regression baselines that included a classic linearregression model, a linear regression model with Lasso penalization, and a linear regression modelwith Ridge penalization that uses the same 180 day input to 1 day output scheme as our models inorder to have a more fair comparison.
